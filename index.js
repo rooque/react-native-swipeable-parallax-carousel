@@ -40,6 +40,23 @@ class SwipeableParallaxCarousel extends Component {
       onPanResponderMove: (event, gesture) => {
         position.setValue({ x: gesture.dx, y: gesture.dy });
       },
+      onPanResponderTerminate: (evt, gesture) => {
+        // Another component has become the responder, so this gesture
+        // should be cancelled
+        if (gesture.dx > SWIPE_THRESHOLD * this.state.screenWidth) {
+          // Can't swipe if it's the beginning
+          if (this.state.currentItem === 0) {
+            this._resetPosition();
+          } else this._forceSwipe('right');
+        } else if (gesture.dx < -SWIPE_THRESHOLD * this.state.screenWidth) {
+          // Can't swipe if it's the end
+          if (this.state.currentItem === this.props.data.length - 1) {
+            this._resetPosition();
+          } else this._forceSwipe('left');
+        } else {
+          this._resetPosition();
+        }
+      },
       onPanResponderRelease: (event, gesture) => {
         if (gesture.dx > SWIPE_THRESHOLD * this.state.screenWidth) {
           // Can't swipe if it's the beginning
