@@ -195,7 +195,7 @@ class SwipeableParallaxCarousel extends Component {
             activeOpacity={0.98}
           >
             <ImageBackground
-              source={{ uri: item.imagePath }}
+              source={{ uri: item.imagePath, cache: 'force-cache' }}
               style={styles.itemImage}
             >
               {this._getOverlay(overlayPath, height)}
